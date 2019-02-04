@@ -1,25 +1,28 @@
 ## Instructions
 
-The goal of this exercise is to create a demo calendar application using Vue and Vuex. We strongly recommend `@vue/cli` to make the bootstrapping of your application really easy.
-Please don't use a `calendar` library, we would like to see your own calendar logic.
-
+The goal of this exercise is to create a demo RESTful application using Golang.
 
 ### The Task
 
-You should start by rendering a single month view of a calendar for the current month – along with the lines of the `calendar` image in this project.
+In this task, we are building the backend of a team application that helps us manage the resources in each project.
 
+#### Features and Requirements
 
-### Features & Requirements:
+1. A resource will be either a contractor or an employee.
+2. A resource can have a few different tags like C#, Angular, General Frontend, Seasoned Leader and so on.
+3. A resource has a role, for instance: Software Engineer, Project Manager and so on
+4. We should be able to use the same tag for multiple resources
 
-* Ability to add a new “reminder” (max 30 chars) for a user entered day and time.
-* Display reminders on the calendar view in the correct time order.
-* Allow the user to select a color when creating a reminder and display it appropriately.
-* Properly handle overflow when multiple reminders appear on the same date.
-* Ability to edit reminders – including changing text, day and time & color.
-* Ability to delete reminders.
-* Expand the calendar to support more than the current month.
+We need to offer endpoints that allow us to create/read/update/delete all the information related.
 
-### Notes:
+#### Notes:
 
-* The data should be retained across different page views, but it’s not necessary to persist it beyond a browser refresh.
-* This is a coding activity and not a design activity. That’s not to say we don’t appreciate good design or that we don’t value those skills if you have them! It’s just that it won’t have a high value when scoring this particular project.
+1. You can use any Golang framework
+2. Make sure to provide a tutorial on how to run your application
+3. Feel free to use any database
+4. Make sure to use a migration system for the database
+
+#### Bonus points:
+
+1. If you add automated tests
+2. If you provide a Docker image
