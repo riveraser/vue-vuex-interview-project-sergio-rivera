@@ -18,14 +18,13 @@
             </ul>
             <ul class="calendar-dates">
               <li class="empty-day" v-for="(blank, index) in monthFirstDay">&nbsp;</li>
-              <li
+              <CalendarDay
                 v-for="(date, index) in monthCountDays"
                 :class="{'current-day': isCurrentDate(date)}"
-                class="secondary--text text--lighten-4 fill-heigth"
+                class="secondary--text text--lighten-4 fill-height"
                 :key="index"
-              >
-                <span>{{date}}</span>
-              </li>
+                :currentDate="date"
+              ></CalendarDay>
               <li
                 class="empty-day bottom"
                 v-for="(blank, index) in monthLastDay"
@@ -40,7 +39,11 @@
 </template>
 <script>
 import moment from "moment";
+import CalendarDay from "./CalendarDay";
+
 export default {
+  name: "CalendarGrid",
+  components: { CalendarDay },
   data: function() {
     return {
       today: moment(),
@@ -70,26 +73,20 @@ export default {
     /** Will fetch the last day of the month so we can paint empty squares at the end of the month*/
     monthLastDay: function() {
       let howManyWeeks = (this.monthFirstDay + this.monthCountDays + 1) / 7;
+      let totalDaysDisplayed = this.monthFirstDay + this.monthCountDays;
 
-      //If Modulo gives us 0 then the days fills the whole week
-      if ((this.monthFirstDay + this.monthCountDays + 1) % 7 == 0) {
-        howManyWeeks = Math.floor(howManyWeeks);
-      } else {
-        //If not then we mus add a whole week
-        howManyWeeks = Math.floor(howManyWeeks) + 1;
+      //Must get residual month + 1 if needed
+      if (!Number.isInteger(howManyWeeks)) {
+        //If Modulo gives us 0 then the days fills the whole week
+        if (totalDaysDisplayed % 7 == 0) {
+          howManyWeeks = Math.floor(howManyWeeks);
+        } else {
+          //If not then we mus add a whole week
+          howManyWeeks = Math.floor(howManyWeeks) + 1;
+        }
       }
-
       let totalDaysToDisplay = howManyWeeks * 7; //Total squares that should be rendered
-
-      //We do not want to render 7 days! in a week that means it will be rendered empty
-      if (
-        totalDaysToDisplay - (this.monthFirstDay + this.monthCountDays) ==
-        7
-      ) {
-        return 0;
-      } else {
-        return totalDaysToDisplay - (this.monthFirstDay + this.monthCountDays);
-      }
+      return totalDaysToDisplay - totalDaysDisplayed;
     },
     day() {
       return this.dateMoment.format("DD");
@@ -166,14 +163,19 @@ export default {
 
       > li {
         width: 14.28%;
-        height: 60px;
+        height: 80px;
         border: 1px solid #22a8f1;
         border-bottom: none;
         border-right: none;
+        text-align: left;
+        padding: 0px 2px;
       }
 
       .current-day {
         background-color: #22a8f1;
+        color: #fff !important;
+        font-weight: 600;
+        text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.4);
       }
       .empty-day {
         background-color: #efefef;
