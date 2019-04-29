@@ -1,2 +1,3 @@
-require("./bootstrap-vue");
+require("./vuetify");
 require("./vee-validate");
+require("./moment");

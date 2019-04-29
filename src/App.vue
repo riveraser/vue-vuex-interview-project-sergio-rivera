@@ -1,20 +1,27 @@
 <template>
-  <div id="app">
-    <b-container>
-      <b-navbar toggleable="lg" type="dark" variant="primary">
-        <b-navbar-brand href="#">Vuejs Calendar</b-navbar-brand>
-        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-        <b-collapse id="nav-collapse" is-nav>
-          <b-navbar-nav>
-            <b-nav-item to="/">Home</b-nav-item>
-            <b-nav-item to="/about">About</b-nav-item>
-          </b-navbar-nav>
-        </b-collapse>
-      </b-navbar>
-      <router-view/>
-    </b-container>
-  </div>
+  <v-app class="grey lighten-4">
+    <Navigation/>
+    <v-content>
+      <router-view></router-view>
+    </v-content>
+  </v-app>
 </template>
+
+<script>
+import Navigation from "@/components/Navigation";
+
+export default {
+  name: "App",
+  components: {
+    Navigation
+  },
+  data() {
+    return {
+      //
+    };
+  }
+};
+</script>
 
 <style lang="scss">
 #app {

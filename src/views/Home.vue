@@ -1,18 +1,25 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-container grid-list-lg>
+    <v-layout row wrap>
+      <v-flex xs12 sm12>
+        <h1 class="text-xs-left blue--text text--darken-2 font-weight-light">EVENTS CALENDAR</h1>
+      </v-flex>
+      <v-flex xs12 sm6>
+        <calendar-grid></calendar-grid>
+      </v-flex>
+      <v-flex xs12 sm6>List here</v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import CalendarGrid from "@/components/calendar/CalendarGrid";
 
 export default {
-  name: 'home',
+  name: "home",
   components: {
-    HelloWorld
+    CalendarGrid
   }
-}
+};
 </script>
