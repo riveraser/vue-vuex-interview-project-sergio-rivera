@@ -19,16 +19,17 @@
             <ul class="calendar-dates">
               <li class="empty-day" v-for="(blank, index) in monthFirstDay">&nbsp;</li>
               <CalendarDay
-                v-for="(date, index) in monthCountDays"
-                :class="{'current-day': isCurrentDate(date)}"
+                v-for="(date, index) in daysObject"
                 class="secondary--text text--lighten-4 fill-height"
                 :key="index"
                 :currentDate="date"
+                @select-date="selectDate"
               ></CalendarDay>
               <li
                 class="empty-day bottom"
                 v-for="(blank, index) in monthLastDay"
                 :class="{'first-child ': index == 0}"
+                :key="35+index"
               >&nbsp;</li>
             </ul>
           </div>
@@ -40,6 +41,7 @@
 <script>
 import moment from "moment";
 import CalendarDay from "./CalendarDay";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "CalendarGrid",
@@ -52,7 +54,30 @@ export default {
       dayLabels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
     };
   },
+  mounted() {
+    //force current day selection
+    let todayId = this.startYear + "" + this.startMonth + "" + this.startDate;
+
+    this.selectDate(todayId);
+  },
   computed: {
+    ...mapGetters(["GET_DATE"]),
+    daysObject() {
+      let todayId = this.startYear + "" + this.startMonth + "" + this.startDate;
+      //build the day object to pass to child component
+      let objDays = [];
+      for (var i = 1; i <= this.monthCountDays; i++) {
+        let dayId = this.year + "" + this.month + "" + i;
+        objDays.push({
+          id: dayId,
+          isCurrentDay: dayId == todayId ? true : false,
+          isSelected: this.GET_DATE == dayId ? true : false,
+          day: i
+        });
+      }
+
+      return objDays;
+    },
     year() {
       return this.dateMoment.format("Y");
     },
@@ -105,6 +130,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(["CHANGE_DATE"]),
     addMonth() {
       this.dateMoment = moment(this.dateMoment).add(1, "month");
     },
@@ -117,6 +143,12 @@ export default {
         parseInt(this.month) == parseInt(this.startMonth) &&
         parseInt(this.year) == parseInt(this.startYear)
       );
+    },
+    selectDate(id) {
+      this.daysObject.forEach(element => {
+        element.isSelected = element.id == id ? true : false;
+      });
+      this.CHANGE_DATE(id);
     }
   }
 };
@@ -171,15 +203,9 @@ export default {
         padding: 0px 2px;
       }
 
-      .current-day {
-        background-color: #22a8f1;
-        color: #fff !important;
-        font-weight: 600;
-        text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.4);
-      }
       .empty-day {
         background-color: #efefef;
-        border: 1px solid #22a8f14d;
+        border: 1px solid #22a8f1;
         border-bottom: none;
         border-right: none;
         &.bottom {
