@@ -45,7 +45,7 @@ export default {
   data: () => ({
     drawer: false,
     links: [
-      { icon: "dashboard", text: "Home", route: "/" },
+      { icon: "dashboard", text: "Home", route: "/home" },
       { icon: "question_answer", text: "About", route: "/about" }
     ]
   })

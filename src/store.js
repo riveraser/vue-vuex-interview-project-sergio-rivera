@@ -1,33 +1,41 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
+import localForage from "localforage";
+import VuexPersistence from 'vuex-persist'
+
+import reminders from '@/store/reminders'
+
 Vue.use(Vuex);
+
+
+/*** We will persist the 'reminders' at local database  */
+const vuexLocal = new VuexPersistence({
+  storage: localForage,
+  modules: ['reminders']
+})
 
 export default new Vuex.Store({
   state: {
-    selectedDate: "",
-    dateTaskObject: []
+    selectedDate: ""
   },
   getters: {
     GET_DATE: state => {
       return state.selectedDate;
-    },
-    GET_DATETASK: state => {
-      return state.dateTaskObject;
     }
   },
   mutations: {
     SET_DATE: (state, payload) => {
       state.selectedDate = payload;
-    },
-    SET_DATETASK: (state, payload) => {
-      state.dateTaskObject.push(payload);
-    },
-    REMOVE_DATETASK: (state, payload) => {}
+    }
   },
   actions: {
     CHANGE_DATE: (context, payload) => {
       context.commit("SET_DATE", payload);
     }
-  }
+  },
+  modules: {
+    reminders
+  },
+  plugins: [vuexLocal.plugin]
 });

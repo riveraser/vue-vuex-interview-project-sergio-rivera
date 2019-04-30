@@ -10,6 +10,7 @@
     "bootstrap": "^4.3.1",
     "bootstrap-vue": "^2.0.0-rc.19",
     "core-js": "^2.6.5",
+    "localforage": "^1.7.3",
     "moment": "^2.24.0",
     "vee-validate": "^2.2.5",
     "vue": "^2.6.10",

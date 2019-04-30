@@ -4,18 +4,47 @@
     @click.prevent="selectDay()"
     :class="{'current-day' : currentDate.isCurrentDay, 'selected-day' : currentDate.isSelected }"
   >
-    <span class="number">{{currentDate.day}}</span>
-    <p class="secondary--text text--lighten-4 muted">{{currentDate.isSelected}}</p>
+    <span class="number clear">{{currentDate.day}}</span>
+     
+     <div class="clear text-xs-center mt-2" v-if="dayTask" >
+       <v-badge overlap>
+      <template v-slot:badge>
+        <span>{{dayTask}}</span>
+      </template>
+
+      <v-avatar
+        color="purple red--after"
+        size="36"
+      >
+        <v-icon dark>notifications</v-icon>
+      </v-avatar>
+    </v-badge>
+    </div>
+
   </li>
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
+
 export default {
   name: "CalendarDay",
   data: function() {
     return {};
   },
   props: ["currentDate", "activities"],
+  computed: {
+    ...mapGetters('reminders', ["GET"]),
+    dayTask(){
+      let myDayTask = this.GET.filter( task => task.dayId === this.currentDate.id);
+      //Try to return value
+      try {
+        return myDayTask.length ;  
+      } catch (error) {
+        return 0;  
+      }
+    }
+  },
   methods: {
     selectDay() {
       this.$emit("select-date", this.currentDate.id);
@@ -23,8 +52,12 @@ export default {
   }
 };
 </script>
-<style lang="less">
+<style lang="less" scoped >
 .calendar {
+  
+  .clear{
+    clear: both;
+  }
   .current-day {
     background-color: darken(#22a8f1, 20%);
     color: #fff !important;
@@ -50,5 +83,6 @@ export default {
       }
     }
   }
+  
 }
 </style>

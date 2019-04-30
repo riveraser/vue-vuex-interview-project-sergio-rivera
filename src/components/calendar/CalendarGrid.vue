@@ -17,7 +17,7 @@
               <li v-for="day in dayLabels" :key="day" class="text-uppercase text-center">{{day}}</li>
             </ul>
             <ul class="calendar-dates">
-              <li class="empty-day" v-for="(blank, index) in monthFirstDay">&nbsp;</li>
+              <li class="empty-day" v-for="(blank, index) in monthFirstDay" :key="100+index">&nbsp;</li>
               <CalendarDay
                 v-for="(date, index) in daysObject"
                 class="secondary--text text--lighten-4 fill-height"
@@ -29,7 +29,7 @@
                 class="empty-day bottom"
                 v-for="(blank, index) in monthLastDay"
                 :class="{'first-child ': index == 0}"
-                :key="35+index"
+                :key="50+index"
               >&nbsp;</li>
             </ul>
           </div>
@@ -58,7 +58,11 @@ export default {
     //force current day selection
     let todayId = this.startYear + "" + this.startMonth + "" + this.startDate;
 
+    console.log(`this.startDate: ${this.startDate}`);
+
     this.selectDate(todayId);
+    
+   
   },
   computed: {
     ...mapGetters(["GET_DATE"]),
@@ -67,12 +71,15 @@ export default {
       //build the day object to pass to child component
       let objDays = [];
       for (var i = 1; i <= this.monthCountDays; i++) {
-        let dayId = this.year + "" + this.month + "" + i;
+        let dayId = this.year + "" + this.month + "" +  ( i < 10 ? "0" + i : i );
         objDays.push({
           id: dayId,
           isCurrentDay: dayId == todayId ? true : false,
           isSelected: this.GET_DATE == dayId ? true : false,
-          day: i
+          day: i,
+          month: this.month,
+          monthName: this.monthName, 
+          year: this.year
         });
       }
 
@@ -149,6 +156,11 @@ export default {
         element.isSelected = element.id == id ? true : false;
       });
       this.CHANGE_DATE(id);
+      
+      this.$router.push({
+            name: 'reminders-details',
+            params: {id: id}
+      })
     }
   }
 };

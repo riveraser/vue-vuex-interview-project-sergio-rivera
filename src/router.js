@@ -7,9 +7,19 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/', redirect: '/home' 
+    },
+    {
+      path: '/home',
       name: 'home',
-      component: Home
+      component: Home,
+      children: [
+        {
+          path: ':id',
+          name: 'reminders-details',
+          component: () => import('./views/Home/ReminderDetails.vue')
+        },
+      ]
     },
     {
       path: '/about',
