@@ -57,12 +57,7 @@ export default {
   mounted() {
     //force current day selection
     let todayId = this.startYear + "" + this.startMonth + "" + this.startDate;
-
-    console.log(`this.startDate: ${this.startDate}`);
-
     this.selectDate(todayId);
-    
-   
   },
   computed: {
     ...mapGetters(["GET_DATE"]),
@@ -71,14 +66,14 @@ export default {
       //build the day object to pass to child component
       let objDays = [];
       for (var i = 1; i <= this.monthCountDays; i++) {
-        let dayId = this.year + "" + this.month + "" +  ( i < 10 ? "0" + i : i );
+        let dayId = this.year + "" + this.month + "" + (i < 10 ? "0" + i : i);
         objDays.push({
           id: dayId,
           isCurrentDay: dayId == todayId ? true : false,
           isSelected: this.GET_DATE == dayId ? true : false,
           day: i,
           month: this.month,
-          monthName: this.monthName, 
+          monthName: this.monthName,
           year: this.year
         });
       }
@@ -156,11 +151,11 @@ export default {
         element.isSelected = element.id == id ? true : false;
       });
       this.CHANGE_DATE(id);
-      
+
       this.$router.push({
-            name: 'reminders-details',
-            params: {id: id}
-      })
+        name: "reminders-details",
+        params: { id: id }
+      });
     }
   }
 };
