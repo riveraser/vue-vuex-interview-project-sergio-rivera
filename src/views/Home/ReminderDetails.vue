@@ -1,7 +1,10 @@
 <template>
   <v-card>
     <v-card-title class="blue white--text">
-      <span class="headline">Reminders list</span>
+      <span class="headline">
+        Reminders list
+        <span class="font-weight-thin">for {{currentDate}}</span>
+      </span>
       <v-spacer></v-spacer>
       <reminder-detail @reminder-saved="onchanged" :isNew="true"></reminder-detail>
     </v-card-title>
@@ -59,7 +62,9 @@ export default {
     };
   },
   mounted() {
-    this.currentDate = this.idToTime(this.$route.params.id);
+    this.currentDate = this.idToTime(this.$route.params.id).format(
+      "MMMM Do YYYY"
+    );
   },
   computed: {
     ...mapState("reminders", ["reminders"]),
@@ -84,6 +89,9 @@ export default {
   watch: {
     $route(to, from) {
       this.CHANGE_DATE(this.$route.params.id);
+      this.currentDate = this.idToTime(this.$route.params.id).format(
+        "MMMM Do YYYY"
+      );
     }
   },
   methods: {

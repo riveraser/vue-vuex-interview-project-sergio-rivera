@@ -8,10 +8,10 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
 
-      <v-btn flat color="gray">
+      <!--v-btn flat color="gray">
         <span>Sign out</span>
         <v-icon right>exit_to_app</v-icon>
-      </v-btn>
+      </v-btn-->
 
       <!--v-btn icon>
         <v-icon>apps</v-icon>

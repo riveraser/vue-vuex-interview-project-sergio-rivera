@@ -48,6 +48,32 @@
                 ></v-text-field>
               </v-flex>
               <v-flex xs12 sm6>
+                <v-select v-model="reminderCopy.color" :items="colorOptions" label="Color"></v-select>
+              </v-flex>
+              <v-flex xs12 sm6>
+                <v-menu
+                  v-model="showDate"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  lazy
+                  transition="scale-transition"
+                  offset-y
+                  full-width
+                  min-width="290px"
+                >
+                  <template v-slot:activator="{ on }">
+                    <v-text-field
+                      v-model="selectedDate"
+                      label="Date (Year-Month-Day format)"
+                      prepend-icon="event"
+                      readonly
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker v-model="selectedDate" @input="showDate = false"></v-date-picker>
+                </v-menu>
+              </v-flex>
+              <v-flex xs12 sm6>
                 <v-select
                   :items="timeOptions"
                   label="From"
@@ -67,12 +93,9 @@
                   ref="beforeTarget"
                 ></v-select>
               </v-flex>
-              <v-flex xs12 sm6>
-                <v-select v-model="reminderCopy.color" :items="colorOptions" label="Color"></v-select>
-              </v-flex>
-              <v-flex xs12 sm12>
-                <v-sheet :color="reminderCopy.color" class="mt-2 float-left"></v-sheet>
-                <v-sheet class="mt-2 float-right">
+              <v-flex xs12 sm12 class="grey lighten-5">
+                <v-sheet :color="reminderCopy.color" class="mt-1 mb-1 float-left"></v-sheet>
+                <v-sheet class="mt-1 mb-1 float-right">
                   <p>{{timeIdtoTime(reminderCopy.start)}} - {{timeIdtoTime(reminderCopy.end)}}</p>
                   <div>{{reminderCopy.message}}</div>
                 </v-sheet>
@@ -107,22 +130,39 @@ export default {
     return {
       dialog: false,
       reminderCopy: {},
-      alert: false
+      alert: false,
+      selectedDate: "",
+      showDate: false
     };
   },
   mounted() {
     //We must work on a copy If the user decides to cancel the edition
     this.reminderCopy = Object.assign({}, this.reminder);
+
+    if (this.isNew) {
+      this.selectedDate = this.idToTime(this.$route.params.id).format(
+        "YYYY-MM-DD"
+      );
+    } else {
+      this.selectedDate = this.idToTime(this.reminderCopy.dayId).format(
+        "YYYY-MM-DD"
+      );
+    }
   },
   methods: {
     ...mapMutations("reminders", ["SAVE", "NEW"]),
     generateNewId(arrCurrentTime) {
-      return parseInt(`${this.$route.params.id}${arrCurrentTime.join("")}`);
+      let idDate = this.dateToid(this.selectedDate);
+      return parseInt(`${idDate}${arrCurrentTime.join("")}`);
     },
     openForm() {
       /**
        * We must set the initial values if its a new Reminder
        */
+      this.selectedDate = this.idToTime(this.$route.params.id).format(
+        "YYYY-MM-DD"
+      );
+
       if (this.isNew) {
         let arrCurrentTime = this.currentTime().split(":");
         let currentTime =
@@ -148,6 +188,8 @@ export default {
           // do stuff if not valid.
           this.alert = true;
         } else {
+          this.reminderCopy.dayId = this.dateToid(this.selectedDate);
+
           if (this.isNew) {
             //We must update the new ID before saving, this will help eliminate duplicates
             let arrCurrentTime = this.currentTime().split(":");
@@ -159,6 +201,7 @@ export default {
             this.reminder.message = this.reminderCopy.message;
             this.reminder.start = this.reminderCopy.start;
             this.reminder.end = this.reminderCopy.end;
+            this.reminder.dayId = this.reminderCopy.dayId;
           }
 
           this.clearFormAndErrors();

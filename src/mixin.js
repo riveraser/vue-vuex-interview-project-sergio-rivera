@@ -59,6 +59,7 @@ export default {
     capitalizeFirstLetter: str => str.charAt(0).toUpperCase() + str.slice(1),
     cleanTextForTranslation: str => str.toLowerCase().replace(/ /g, "_"),
     idToTime: str => moment(str, "YYYYMMDD"),
+    dateToid: str => moment(str, "YYYY-MM-DD").format("YYYYMMDD"),
     timeIdtoTime: str => moment(str, "HHmm").format("h:mm a"),
     currentTime() {
       return moment().format("HH:mm:ss");
