@@ -3,10 +3,12 @@
 ## I did use the following third party modules:
 
 - Vuetify : For template and desing
-- VeeValidate : For input validatios
+- VeeValidate : For input validations
 - vuex-persist : To persist the Data at vuex
 - localforage : To save vuex data to localstorage/ indexDB database
 - momentjs : To easy manipulate dateTime values and formattings
+
+**Even if Vuetify offers a calendar component I did not use it! I build my own component as stated on the Test description. I use Date Picker though to select a new Date for the Reminder Form**
 
 ## Screenshots:
 
@@ -16,7 +18,7 @@
 
 ## Multilang:
 
-I am trying to setup a multilang (en, es, fr) Project but due to limited time that I have I wont be able to do it :-(
+I am trying to setup a multilang (en, es, fr) Project but due to limited time that I have I wont be able to do it :-( ---- _No I wont have the time on 2019-05-01 I must create a Pull Request now :-(_ ----
 
 Thanks for the opportunity
 
