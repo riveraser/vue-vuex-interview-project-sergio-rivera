@@ -24,7 +24,6 @@ Thanks for the opportunity
 
 ### Sergio Rivera Morales [sergi.erm@gmail.com](mailto:sergi.erm@gmail.com)
 
-### Presented on DEC 2018 to a remote proposal
 
 ## Project setup
 
