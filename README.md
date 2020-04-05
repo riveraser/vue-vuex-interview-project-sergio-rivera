@@ -22,7 +22,7 @@ I am trying to setup a multilang (en, es, fr) Project but due to limited time th
 
 Thanks for the opportunity
 
-### Sergio Rivera [sergi.erm@gmail.com](mailto:sergi.erm@gmail.com)
+### Sergio Rivera Morales [sergi.erm@gmail.com](mailto:sergi.erm@gmail.com)
 
 ## Project setup
 
